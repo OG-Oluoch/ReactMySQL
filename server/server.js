@@ -3,6 +3,7 @@ import mysql from 'mysql'
 import cors from 'cors'
 
 
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -38,6 +39,16 @@ app.post('/students',(req,res)=>{
     db.query(sql,[values],(err,result)=>{
         if(err) return res.json(err);
         return res.json(result);
+    })
+})
+
+app.get('/read/:id',(req,res)=>{
+    const sql = "SELECT * FROM students WHERE id = ?";
+    const id = req.params.id;
+
+    db.query(sql,[id],(err,result)=>{
+        if(err) return res.json({Message:"Error in the server"});
+         return res.json(result);
     })
 })
 
