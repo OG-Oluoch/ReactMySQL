@@ -1,45 +1,49 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function Home() {
-  const [data,setData]=useState([])
-    useEffect(()=>{
-        axios.get('http://localhost:8080/')
-        .then(res=>setData(res.data))
-        .catch(err=>console.log(err));
-    },
-  [])
-  return (
-    <>
-    <div>
-      <table>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>Department</th>
-            <th>Year of study</th>
-          </tr>
-        </thead>
-        <tbody>
-         {data.map((students,index)=>{
-          return <tr key ={index}>
-             <td>{students.id}</td>
-             <td>{students.firstname}</td>
-             <td>{students.lastname}</td>
-             <td>{students.department}</td>
-             <td>{students.year}</td> 
+  const [data, setData] = useState([]);
 
-             <button>Edit</button>
-             <button>Delete</button>
-          </tr>
-         })}
-        </tbody>
-      </table>
+  useEffect(() => {
+    axios.get('http://localhost:8080/')
+      .then(res => setData(res.data))
+      .catch(err => console.log(err));
+  }, []);
+
+  return (
+    <div className="container mt-4">
+      <h3 className="text-center mb-4">Student Info</h3>
+      <div className="table-responsive">
+        <table className="table table-striped table-hover table-bordered">
+          <thead className="table-dark">
+            <tr>
+              <th>Id</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Department</th>
+              <th>Year of Study</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((student, index) => (
+              <tr key={index}>
+                <td>{student.id}</td>
+                <td>{student.firstname}</td>
+                <td>{student.lastname}</td>
+                <td>{student.department}</td>
+                <td>{student.year}</td>
+                <td>
+                  <button className="btn btn-primary btn-sm me-2">Edit</button>
+                  <button className="btn btn-danger btn-sm">Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
-    </>
-  )
+  );
 }
 
-export default Home
+export default Home;
