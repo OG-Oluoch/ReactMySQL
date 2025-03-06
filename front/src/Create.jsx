@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 function Create() {
     const[values,setValues]=useState({
@@ -9,10 +10,15 @@ function Create() {
         department:"",
         year:"",
     })
+
+    const navigate = useNavigate();
+
     const handleSubmit = (e) =>{
         e.preventDefault();
         axios.post('http://localhost:8080/students',values)
-        .then(res=>console.log(res))
+        .then(res=>{console.log(res);
+            navigate('/')
+        })
         .catch(err=>console.log(err))
     }
   return (
