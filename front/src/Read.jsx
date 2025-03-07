@@ -28,7 +28,7 @@ function Read() {
             <h3>Department: {student.department}</h3>
             <h3>Year: {student.year}</h3>
             <Link to="/" className="btn btn-primary">Back</Link>
-            <button className="btn btn-black">Edit</button>
+            <Link to={`/edit/${student.id}`} className='btn btn-info'>Edit</Link>
         </div>
     );
 }
