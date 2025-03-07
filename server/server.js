@@ -56,6 +56,17 @@ app.get('/read/:id', (req, res) => {
     });
 });
 
+app.put('/edit/:id', (req, res) => {
+    const sql = "UPDATE students SET firstname = ?, lastname = ?, department = ?, year = ? WHERE id = ?";
+    const values = [req.body.firstname, req.body.lastname, req.body.department, req.body.year];
+    const id = req.params.id;
+
+    db.query(sql, [...values, id], (err, result) => {
+        if (err) return res.json({ Message: "Error updating student" });
+        return res.json({ Message: "Student updated successfully" });
+    });
+});
+
 app.listen(8080, () => {
     console.log("Server running on port 8080");
 });
