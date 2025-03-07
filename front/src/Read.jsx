@@ -1,32 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 function Read() {
-    const {id} = useParams();
-    const [student,setStudent] = useState([])
-    useEffect(()=>{
-     axios.get('http://localhost:8080/read/'+id)
-     .then(res=>{
-        console.log(res)
-        setStudent(res.data);
-    })
-     .catch(err=>console.log(err))
-    },[])
-  return (
-    <div>
+    const { id } = useParams();
+    const [student, setStudent] = useState(null); // Initialize as null
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/read/${id}`)
+            .then(res => {
+                console.log(res);
+                setStudent(res.data); // Assuming res.data is an object, not an array
+            })
+            .catch(err => console.log(err));
+    }, [id]); // Add id as a dependency
+
+    if (!student) {
+        return <p>Loading...</p>; // Show loading state while fetching data
+    }
+
+    return (
         <div>
-            <h2> Student Detail</h2>
-            <h3>{student[0].id}</h3>
-            <h3>{student[0].firstname}</h3>
-            <h3>{student[0].lastname}</h3>
-            <h3>{student[0].department}</h3>
-            <h3>{student[0].year}</h3>
-       <Link to="/" className='btn btn-primary'>Back</Link>
-       <button className='btn btn-black'>Edit</button>
+            <h2>Student Detail</h2>
+            <h3>ID: {student.id}</h3>
+            <h3>First Name: {student.firstname}</h3>
+            <h3>Last Name: {student.lastname}</h3>
+            <h3>Department: {student.department}</h3>
+            <h3>Year: {student.year}</h3>
+            <Link to="/" className="btn btn-primary">Back</Link>
+            <button className="btn btn-black">Edit</button>
         </div>
-    </div>
-  )
+    );
 }
 
-export default Read
+export default Read;
